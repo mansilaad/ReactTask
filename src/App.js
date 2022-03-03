@@ -1,9 +1,10 @@
 import './App.css';
+import Dashboard from './components/Dashboard';
 
 function App() {
   return (
     <div>
-    <p> Hi There</p>
+     <Dashboard/>
     </div>
   );
 }
