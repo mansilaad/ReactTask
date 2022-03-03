@@ -8,7 +8,8 @@ import DataShowingDashboard from './DataShowingDashboard';
 const Dashboard = () => {
   let deatilsObj=[];
  
-  const [data,setData]= useState(deatilsObj);
+  const [data,setData]= useState(getLocalItems());
+  
   //const [counter,setCounter]=(0);
   let count=3;
   const Comp=({handleSave})=>{
@@ -21,25 +22,38 @@ const Dashboard = () => {
         
       }
   }
+  
+  function getLocalItems() {
+    let item= localStorage.getItem('Items');
+    if(item){
+        let ourData=JSON.parse(localStorage.getItem('Items'));
+        console.log("ourData",ourData);
+        return ourData;
+    }else{
+        return [];
+    }
+  
+}
+  useEffect(()=>{
+    localStorage.setItem("Items",JSON.stringify(data))
+ },[data]);
 
   const increment=()=>{
     count= count+1;
-  // setCounter(counter);
+   //setCounter(count);
   }
   const decrement=()=>{
     if(count>1){
       count=count-1;
-      //counter=count;
-      // setCounter(counter);
+     //setCounter(count);
     }
   }
-  const onSubmit=()=>{
-    localStorage.setItem("Items",JSON.stringify(data));
-   // console.log(data);
+  const onSubmit= ()=>{
+    
+    alert("data submitted");
   }
   const handleSave = async (values) => {
     try {
-      console.log("values in handlesave", values)
       await setData([...data,values]);
     } catch (e) {
         console.log('errrr', e);
@@ -73,13 +87,12 @@ const Dashboard = () => {
     
       
     </Grid>
-    <Grid item container justifyContent="flex-end">
+    {/* <Grid item container justifyContent="flex-end">
     <Button variant="outlined" onClick={onSubmit}>Submit</Button>
-    </Grid>
+    </Grid> */}
     </Grid>
 
-
-    <DataShowingDashboard/>
+    <DataShowingDashboard items={data}/>
 </>
   )
 }
